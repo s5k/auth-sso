@@ -10,15 +10,17 @@ export class GoogleAuthService {
       authConfig.google.appSecret,
     );
 
-    client.setCredentials({ access_token: accessToken });
+    client.setCredentials({ id_token: accessToken, access_token: accessToken });
 
     const oauth2 = google.oauth2({
       auth: client,
       version: 'v2',
     });
 
-    const { data } = await oauth2.userinfo.get();
+    const data = await client.verifyIdToken({
+      idToken: accessToken,
+    });
 
-    return data;
+    return { ...data.getPayload(), id: data.getPayload().sub };
   }
 }
