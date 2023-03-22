@@ -83,10 +83,6 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() body: RegisterDto) {
-    if (await this.userService.getUserByName(body.username)) {
-      throw new BadRequestException('Username already exists');
-    }
-
     if (await this.userService.getUserByEmail(body.email)) {
       throw new BadRequestException('Email already exists');
     }
