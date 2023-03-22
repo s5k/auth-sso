@@ -32,8 +32,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validate(username: string, password: string) {
-    const user = await this.userService.getUser(username);
+  async validate(email: string, password: string) {
+    const user = await this.userService.getUserByEmail(email);
 
     if (!user) {
       throw new UnauthorizedException('User does not exist');
@@ -112,6 +112,8 @@ export class AuthService {
 
       return this.login(user);
     } catch (e) {
+      console.log(e);
+
       if (e instanceof HttpException) {
         throw e;
       }

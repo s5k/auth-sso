@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { AuthModule } from '../auth/auth.module';
 import { UserService } from './service/user.service';
-import { UserGateway } from './gateway/user.gateway';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schema/user.schema';
 import { Subscription, SubscriptionSchema } from './schema/subscription.schema';
@@ -35,7 +34,7 @@ import {
     forwardRef(() => AuthModule),
   ],
   controllers: [UserController],
-  providers: [UserService, UserGateway],
-  exports: [UserService, UserGateway],
+  providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}

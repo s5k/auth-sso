@@ -10,7 +10,6 @@ import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { User } from '../schema/user.schema';
 import { randomString } from '../../../shared/utils/random-string';
-import { UserGateway } from '../gateway/user.gateway';
 import { MailerService } from '@nestjs-modules/mailer';
 import { environments } from 'src/environments/environments';
 
@@ -29,7 +28,6 @@ export class UserService {
 
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
-    @Inject(forwardRef(() => UserGateway)) private userGateway: UserGateway,
     private mailService: MailerService,
   ) {}
 

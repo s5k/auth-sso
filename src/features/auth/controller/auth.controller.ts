@@ -37,7 +37,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() body: LoginDto) {
     return this.authService.login(
-      await this.authService.validate(body.username, body.password),
+      await this.authService.validate(body.email, body.password),
     );
   }
 
@@ -67,6 +67,8 @@ export class AuthController {
     @CurrentUser() user: User,
     @Body('accessToken') accessToken: string,
   ) {
+    console.log(accessToken);
+
     return this.authService.loginWithThirdParty(
       'googleId',
       () => this.googleService.getUser(accessToken),
