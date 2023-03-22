@@ -1,0 +1,7 @@
+{
+	"vapid": {
+		"subject": "mailto:denzelcodedev@gmail.com",
+		"privateKey": "wHI9lg5i5y6e0nWPt6iFxquhYJUHKohoQm1yWoHon8Y",
+		"publicKey": "BMQ6fG05g9i0rldN1EnVGu-HZ4CzocXQfk9B9XGNLO9jRbVljSOsbgo6AAvKRu9KtfAtm3J3eZ7DR8k9c_mGsiA"
+	}
+}
