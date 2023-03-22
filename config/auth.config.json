@@ -1,7 +1,7 @@
 {
 	"facebook": {
-		"appId": 1234,
-		"appSecret": "secret"
+		"appId": "130263093173817",
+		"appSecret": "c1957e91f960ce0cf6d09d88815bfcd4"
 	},
 	"google": {
 		"appId": "465864846976-rf723tounrrh705heumabh9p50atsnul.apps.googleusercontent.com",
