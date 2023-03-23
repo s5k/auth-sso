@@ -43,7 +43,7 @@ export class AuthService {
       throw new UnauthorizedException('Incorrect password');
     }
 
-    if (user.verifyEmailToken && user.verifyEmailToken.length) {
+    if (!user.isActive) {
       throw new UnauthorizedException('Please verify your email first');
     }
 

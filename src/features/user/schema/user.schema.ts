@@ -3,6 +3,7 @@ import { Prop, Schema } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { createSchemaForClassWithMethods } from '../../../shared/mongoose/create-schema';
 import { randomString } from '../../../shared/utils/random-string';
+import { randomNumber } from 'src/shared/utils/random-number';
 
 @Schema()
 export class User extends Document {
@@ -16,7 +17,10 @@ export class User extends Document {
   sessionToken: string;
 
   @Prop()
-  verifyEmailToken: string;
+  verifyCode: number;
+
+  @Prop()
+  isActive: boolean;
 
   @Prop({ default: false })
   online: boolean;
@@ -41,8 +45,8 @@ export class User extends Document {
     this.sessionToken = randomString(60);
   }
 
-  generateVerifyEmailToken() {
-    this.verifyEmailToken = randomString(60);
+  generateVerifyAccountCode() {
+    this.verifyCode = randomNumber(4);
   }
 
   validatePassword(password: string): Promise<boolean> {

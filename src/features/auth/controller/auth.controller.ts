@@ -3,12 +3,9 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
-  Res,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { FacebookAuthService } from 'facebook-auth-nestjs';
 import { User } from '../../user/schema/user.schema';
 import { UserService } from '../../user/service/user.service';
@@ -16,6 +13,7 @@ import { AuthNotRequired } from '../decorators/auth-not-required.decorator';
 import { CurrentUser } from '../decorators/current-user.decorator';
 import { LoginDto } from '../dto/login.dto';
 import { RegisterDto } from '../dto/register.dto';
+import { VerifyAccountDto } from '../dto/verify-account.dto';
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { AuthService } from '../service/auth.service';
 import { GoogleAuthService } from '../service/google-auth.service';
@@ -89,12 +87,20 @@ export class AuthController {
     };
   }
 
-  @Get('verify-email/:code')
-  async verifyEmail(@Param('code') token: string) {
-    const user = await this.userService.getUserByVerifyEmailToken(token);
+  @Post('verify-account')
+  async verifyAccount(@Body() body: VerifyAccountDto) {
+    const user = await this.userService.getUserByEmail(body.email);
 
-    if (!user || (await !this.userService.confirmVerifiedEmail(user))) {
-      throw new BadRequestException('Invalid token');
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    if (user && user.verifyCode !== body.code) {
+      throw new BadRequestException('Invalid active code');
+    }
+
+    if (await !this.userService.doActiveUser(user)) {
+      throw new BadRequestException('Active user failed');
     }
 
     return {

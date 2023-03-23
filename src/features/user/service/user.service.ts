@@ -68,10 +68,6 @@ export class UserService {
     return this.userModel.findOne({ googleId: id });
   }
 
-  getUserByVerifyEmailToken(token: string) {
-    return this.userModel.findOne({ verifyEmailToken: token });
-  }
-
   getUserById(id: ObjectId | string) {
     return this.userModel.findById(id);
   }
@@ -114,20 +110,21 @@ export class UserService {
     const user = await this.userModel.create(body);
 
     user.generateSessionToken();
-    user.generateVerifyEmailToken();
+    user.generateVerifyAccountCode();
 
     return user.save();
   }
 
-  async confirmVerifiedEmail(user: User) {
-    user.verifyEmailToken = null;
+  async doActiveUser(user: User) {
+    user.verifyCode = null;
+    user.isActive = true;
 
     return user.save();
   }
 
   async sendVerifyEmail(user: User) {
     const url = environments.backendUrl;
-    const verifyEmailToken = user.verifyEmailToken;
+    const verifyCode = user.verifyCode;
 
     try {
       await this.mailService.sendMail({
@@ -136,7 +133,7 @@ export class UserService {
         template: './verify', // This will fetch /template/verify.hbs
         context: {
           url,
-          code: verifyEmailToken,
+          code: verifyCode,
         },
       });
     } catch (e) {
