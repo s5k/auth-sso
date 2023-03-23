@@ -12,13 +12,9 @@ export class GoogleAuthService {
 
     client.setCredentials({ id_token: accessToken, access_token: accessToken });
 
-    const oauth2 = google.oauth2({
-      auth: client,
-      version: 'v2',
-    });
-
     const data = await client.verifyIdToken({
       idToken: accessToken,
+      audience: authConfig.google.appId as string,
     });
 
     return { ...data.getPayload(), id: data.getPayload().sub };
