@@ -1,19 +1,9 @@
-import { UserController } from './controller/user.controller';
-import {
-  forwardRef,
-  Module,
-  OnModuleDestroy,
-  OnModuleInit,
-} from '@nestjs/common';
-import { AuthModule } from '../auth/auth.module';
-import { UserService } from './service/user.service';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from '../auth/auth.module';
+import { UserController } from './controller/user.controller';
 import { User, UserSchema } from './schema/user.schema';
-import { Subscription, SubscriptionSchema } from './schema/subscription.schema';
-import {
-  SocketConnection,
-  SocketConnectionSchema,
-} from './schema/socket-connection.schema';
+import { UserService } from './service/user.service';
 
 @Module({
   imports: [
@@ -21,14 +11,6 @@ import {
       {
         name: User.name,
         schema: UserSchema,
-      },
-      {
-        name: Subscription.name,
-        schema: SubscriptionSchema,
-      },
-      {
-        name: SocketConnection.name,
-        schema: SocketConnectionSchema,
       },
     ]),
     forwardRef(() => AuthModule),

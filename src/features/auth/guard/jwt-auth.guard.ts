@@ -1,18 +1,18 @@
 import {
-  Injectable,
   CanActivate,
   ExecutionContext,
-  UnauthorizedException,
-  Inject,
   forwardRef,
+  Inject,
+  Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Socket } from 'socket.io';
 import { Client, getClient } from '../../../shared/utils/get-client';
 import { UserService } from '../../user/service/user.service';
-import { AuthService } from '../service/auth.service';
 import { AUTH_NOT_REQUIRED } from '../decorators/auth-not-required.decorator';
+import { AuthService } from '../service/auth.service';
 
 export interface Token {
   sub: string;

@@ -1,17 +1,15 @@
+import { MailerService } from '@nestjs-modules/mailer';
 import {
-  forwardRef,
-  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { ObjectId } from 'mongodb';
-import { User } from '../schema/user.schema';
-import { randomString } from '../../../shared/utils/random-string';
-import { MailerService } from '@nestjs-modules/mailer';
+import { FilterQuery, Model } from 'mongoose';
 import { environments } from 'src/environments/environments';
+import { randomString } from '../../../shared/utils/random-string';
+import { User } from '../schema/user.schema';
 
 @Injectable()
 export class UserService {

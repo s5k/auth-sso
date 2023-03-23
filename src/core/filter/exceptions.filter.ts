@@ -1,14 +1,14 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import { WsException } from '@nestjs/websockets';
+import { Request } from 'express';
 import { Socket } from 'socket.io';
 import { getRequest } from '../../shared/utils/get-request';
-import { Request } from 'express';
 
 export type Exceptions = HttpException | WsException;
 

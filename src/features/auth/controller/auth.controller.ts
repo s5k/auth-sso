@@ -2,28 +2,23 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Post,
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { Response } from 'express';
+import { FacebookAuthService } from 'facebook-auth-nestjs';
 import { User } from '../../user/schema/user.schema';
 import { UserService } from '../../user/service/user.service';
-import { CurrentUser } from '../decorators/current-user.decorator';
-import { AuthService } from '../service/auth.service';
-import { JwtAuthGuard } from '../guard/jwt-auth.guard';
-import { RegisterDto } from '../dto/register.dto';
-import { LoginDto } from '../dto/login.dto';
-import { FacebookAuthService } from 'facebook-auth-nestjs';
-import { GoogleAuthService } from '../service/google-auth.service';
-import { Dictionary } from 'code-config';
-import { Response } from 'express';
-import { authConfig } from '../config/auth.config';
-import { stringify } from 'qs';
 import { AuthNotRequired } from '../decorators/auth-not-required.decorator';
-import { environments } from 'src/environments/environments';
+import { CurrentUser } from '../decorators/current-user.decorator';
+import { LoginDto } from '../dto/login.dto';
+import { RegisterDto } from '../dto/register.dto';
+import { JwtAuthGuard } from '../guard/jwt-auth.guard';
+import { AuthService } from '../service/auth.service';
+import { GoogleAuthService } from '../service/google-auth.service';
 
 @Controller('auth')
 export class AuthController {
@@ -104,7 +99,9 @@ export class AuthController {
       throw new BadRequestException('Invalid token');
     }
 
-    res.redirect(environments.frontEndUrl);
+    return {
+      status: true,
+    };
   }
 
   @Get('me')
