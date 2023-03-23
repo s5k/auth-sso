@@ -16,7 +16,7 @@ import { AuthService } from '../service/auth.service';
 
 export interface Token {
   sub: string;
-  username: string;
+  email: string;
 }
 
 @Injectable()

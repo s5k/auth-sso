@@ -53,7 +53,7 @@ export class AuthService {
   async login(user: User): Promise<TokenResponse> {
     const payload: Token = {
       sub: user.id,
-      username: user.username,
+      email: user.email,
     };
 
     let refresh_token: string;
@@ -116,8 +116,6 @@ export class AuthService {
 
       return this.login(user);
     } catch (e) {
-      console.log(e);
-
       if (e instanceof HttpException) {
         throw e;
       }

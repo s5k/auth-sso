@@ -5,10 +5,10 @@ import { UserService } from '../service/user.service';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get(':username')
-  async getUser(@Param('username') username: string) {
+  @Get(':email')
+  async getUser(@Param('email') email: string) {
     return this.userService.filterUser(
-      await this.userService.validateUserByName(username),
+      await this.userService.getUserByEmail(email),
     );
   }
 }

@@ -16,7 +16,6 @@ export class UserService {
   private blockedFields: (keyof User)[] = [
     'password',
     'sessionToken',
-    'email',
     'facebookId',
     'googleId',
     'appleId',
@@ -97,13 +96,6 @@ export class UserService {
     return this.generateUsername(name + randomString(1));
   }
 
-  async getUser(username: string) {
-    return (
-      (await this.getUserByName(username)) ??
-      (await this.getUserByEmail(username))
-    );
-  }
-
   filterUser(user: User, allowedFields: (keyof User)[] = []) {
     const userObject = user.toObject({ virtuals: true });
 
@@ -143,7 +135,6 @@ export class UserService {
         subject: 'Verify your account',
         template: './verify', // This will fetch /template/verify.hbs
         context: {
-          name: user.username,
           url,
           code: verifyEmailToken,
         },

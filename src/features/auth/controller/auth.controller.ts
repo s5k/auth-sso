@@ -62,8 +62,6 @@ export class AuthController {
     @CurrentUser() user: User,
     @Body('accessToken') accessToken: string,
   ) {
-    console.log(accessToken);
-
     return this.authService.loginWithThirdParty(
       'googleId',
       () => this.googleService.getUser(accessToken),
@@ -92,7 +90,7 @@ export class AuthController {
   }
 
   @Get('verify-email/:code')
-  async verifyEmail(@Res() res: Response, @Param('code') token: string) {
+  async verifyEmail(@Param('code') token: string) {
     const user = await this.userService.getUserByVerifyEmailToken(token);
 
     if (!user || (await !this.userService.confirmVerifiedEmail(user))) {
