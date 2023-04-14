@@ -10,6 +10,7 @@ export const environments = {
   proxyEnabled: env.PROXY_ENABLED === 'true',
   frontEndUrl: env.FRONTEND_URL,
   backendUrl: env.BACKEND_URL,
+  jwtSecret: env.JWT_SECRET,
   accessTokenSecret: env.ACCESS_TOKEN_SECRET,
   accessTokenExpiration: env.ACCESS_TOKEN_EXPIRATION,
   refreshTokenSecret: env.REFRESH_TOKEN_SECRET,

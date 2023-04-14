@@ -40,11 +40,7 @@ export class ExceptionsFilter implements ExceptionFilter {
 
     switch (host.getType()) {
       case 'http':
-        host
-          .switchToHttp()
-          .getResponse()
-          .status(statusCode)
-          .json(response);
+        host.switchToHttp().getResponse().status(statusCode).json(response);
         break;
 
       case 'ws':

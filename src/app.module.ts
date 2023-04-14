@@ -2,6 +2,8 @@ import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { CoreModule } from './core/core.module';
 import { ExceptionsFilter } from './core/filter/exceptions.filter';
@@ -15,7 +17,10 @@ import { FeaturesModule } from './features/features.module';
     ConfigModule.forRoot(),
     MongooseModule.forRoot(environments.mongoUri, {
       autoIndex: false,
-      useFindAndModify: false,
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      typePaths: ['./**/*.graphql'],
     }),
   ],
   providers: [

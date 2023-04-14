@@ -8,13 +8,15 @@ import { AuthController } from './controller/auth.controller';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { AuthService } from './service/auth.service';
 import { GoogleAuthService } from './service/google-auth.service';
+import { environments } from 'src/environments/environments';
 
 const facebook = authConfig.facebook;
 
+export
 @Module({
   imports: [
     ConfigModule,
-    JwtModule.register(null),
+    JwtModule.register({ secret: environments.jwtSecret }),
     FacebookAuthModule.forRoot({
       clientId: facebook.appId as number,
       clientSecret: facebook.appSecret,
@@ -25,4 +27,4 @@ const facebook = authConfig.facebook;
   providers: [AuthService, JwtAuthGuard, GoogleAuthService],
   exports: [JwtAuthGuard, AuthService, JwtModule, ConfigModule, UserModule],
 })
-export class AuthModule {}
+class AuthModule {}
