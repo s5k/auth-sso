@@ -18,7 +18,7 @@ export abstract class BaseService<T extends Document, C, U, F> {
   }
 
   update(id: string, updateInput: U): Promise<T> {
-    return this.model.findByIdAndUpdate(id, updateInput);
+    return this.model.findByIdAndUpdate(id, updateInput, { new: true });
   }
 
   remove(id: string): Promise<T> {

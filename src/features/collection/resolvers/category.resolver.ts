@@ -34,7 +34,9 @@ export class CategoryResolver {
   @ResolveField()
   async products(@Parent() category) {
     const { id } = category;
-    return this.productService.findAll({ category: id });
+    return this.productService.findAll({
+      category: id,
+    });
   }
 
   @ResolveField()
@@ -50,7 +52,9 @@ export class CategoryResolver {
   }
 
   @Mutation('updateCategory')
-  update(@Args('updateCateProduct') updateCategoryInput: UpdateCategoryInput) {
+  update(
+    @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput,
+  ) {
     return this.categoryService.update(
       updateCategoryInput.id,
       updateCategoryInput,
