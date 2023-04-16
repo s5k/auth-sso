@@ -12,6 +12,8 @@ import { UpdateCollectionInput } from '../dto/update-collection.input';
 import { FindCollectionInput } from '../dto/find-collection.input';
 import { ProductService } from '../services/product.service';
 import { CategoryService } from '../services/category.service';
+import { PackageService } from '../services/package.service';
+import { PackageCategoryService } from '../services/package-category.service';
 
 @Resolver('Collection')
 export class CollectionResolver {
@@ -19,6 +21,8 @@ export class CollectionResolver {
     private readonly collectionService: CollectionService,
     private readonly productService: ProductService,
     private readonly categoryService: CategoryService,
+    private readonly packageService: PackageService,
+    private readonly packageCategoryService: PackageCategoryService,
   ) {}
 
   @Mutation('createCollection')
@@ -47,6 +51,21 @@ export class CollectionResolver {
       parent_collection: id,
       category: null,
     });
+  }
+
+  @ResolveField()
+  async packages(@Parent() collection) {
+    const { id } = collection;
+    return this.packageService.findAll({
+      parent_collection: id,
+      category: null,
+    });
+  }
+
+  @ResolveField()
+  async packageCategories(@Parent() collection) {
+    const { id } = collection;
+    return this.packageCategoryService.findAll({ parent_collection: id });
   }
 
   @Query('getSingleCollection')

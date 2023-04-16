@@ -9,6 +9,15 @@ import { Category, CategorySchema } from './schema/category.schema';
 import { CategoryService } from './services/category.service';
 import { CategoryResolver } from './resolvers/category.resolver';
 import { ProductResolver } from './resolvers/product.resolver';
+import { Package, PackageSchema } from './schema/package.schema';
+import {
+  PackageCategory,
+  PackageCategorySchema,
+} from './schema/package-category.schema';
+import { PackageService } from './services/package.service';
+import { PackageResolver } from './resolvers/package.resolver';
+import { PackageCategoryService } from './services/package-category.service';
+import { PackageCategoryResolver } from './resolvers/package-category.resolver';
 
 @Module({
   imports: [
@@ -25,6 +34,14 @@ import { ProductResolver } from './resolvers/product.resolver';
         name: Category.name,
         schema: CategorySchema,
       },
+      {
+        name: Package.name,
+        schema: PackageSchema,
+      },
+      {
+        name: PackageCategory.name,
+        schema: PackageCategorySchema,
+      },
     ]),
   ],
   providers: [
@@ -34,6 +51,10 @@ import { ProductResolver } from './resolvers/product.resolver';
     ProductResolver,
     CategoryService,
     CategoryResolver,
+    PackageService,
+    PackageResolver,
+    PackageCategoryService,
+    PackageCategoryResolver,
   ],
   exports: [CollectionService],
 })

@@ -19,6 +19,27 @@ type Category {
   updatedAt: String!
 }
 
+type PackageCategory {
+  id: String!
+  name: String!
+  description: String!
+  products: [Product]!
+  collection: Collection!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Package {
+  id: String!
+  name: String!
+  description: String!
+  thumbnail: String!
+  category: Category
+  collection: Collection!
+  createdAt: String!
+  updatedAt: String!
+}
+
 type Collection {
   id: String!
   name: String!
@@ -26,6 +47,8 @@ type Collection {
   thumbnail: String!
   products: [Product]!
   categories: [Category]!
+  packages: [Package]!
+  packageCategories: [PackageCategory]!
   updatedAt: String!
 }
 
@@ -59,6 +82,36 @@ input UpdateCategoryInput {
   parent_collection: String
 }
 
+input CreatePackageInput {
+  name: String!
+  description: String
+  thumbnail: String
+  category: String
+  parent_collection: String!
+}
+
+input UpdatePackageInput {
+  id: String!
+  name: String
+  description: String
+  thumbnail: String
+  category: String
+  parent_collection: String
+}
+
+input CreatePackageCategoryInput {
+  name: String!
+  description: String
+  parent_collection: String!
+}
+
+input UpdatePackageCategoryInput {
+  id: String!
+  name: String
+  description: String
+  parent_collection: String
+}
+
 input CreateCollectionInput {
   name: String!
   description: String
@@ -79,6 +132,10 @@ type Query {
   getSingleCategory(id: String!): Category
   products: [Product]!
   getSingleProduct(id: String!): Product
+  packages: [Package]
+  getSinglePackage(id: String!): Package
+  packageCategories: [PackageCategory]
+  getSinglePackageCategory(id: String!): PackageCategory
 }
 
 type Mutation {
@@ -93,4 +150,16 @@ type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   removeProduct(id: String!): Product
+
+  createPackage(createPackageInput: CreatePackageInput!): Package!
+  updatePackage(updatePackageInput: UpdatePackageInput!): Package!
+  removePackage(id: String!): Package
+
+  createPackageCategory(
+    createPackageCategoryInput: CreatePackageCategoryInput!
+  ): PackageCategory!
+  updatePackageCategory(
+    updatePackageCategoryInput: UpdatePackageCategoryInput!
+  ): PackageCategory!
+  removePackageCategory(id: String!): PackageCategory
 }
