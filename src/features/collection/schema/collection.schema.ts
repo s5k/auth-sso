@@ -23,47 +23,6 @@ export class Collection extends Document {
   @Prop()
   updated_at: Date;
 
-  @Prop({
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-      },
-    ],
-  })
-  categories: Category[];
-
-  @Prop({
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-      },
-    ],
-  })
-  products: Product[];
-
-  @Prop({
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-      },
-    ],
-  })
-  packages: Product[];
-
-  @Prop({
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        match: { type: 'package' },
-      },
-    ],
-  })
-  package_categories: Category[];
-
   @Prop()
   createdAt?: Date;
 

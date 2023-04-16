@@ -23,9 +23,6 @@ export class Category extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Collection' })
   parent_collection: Collection;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }] })
-  products: Product[];
-
   @Prop()
   createdAt?: Date;
 
