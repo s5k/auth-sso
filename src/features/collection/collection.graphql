@@ -1,24 +1,96 @@
+type Product {
+  id: String!
+  name: String!
+  description: String!
+  thumbnail: String!
+  category: Category
+  collection: Collection!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Category {
+  id: String!
+  name: String!
+  description: String!
+  products: [Product]!
+  collection: Collection!
+  createdAt: String!
+  updatedAt: String!
+}
+
 type Collection {
-  # Example field (placeholder)
-  exampleField: Int
+  id: String!
+  name: String!
+  description: String!
+  thumbnail: String!
+  products: [Product]!
+  categories: [Category]!
+  updatedAt: String!
+}
+
+input CreateProductInput {
+  name: String!
+  description: String
+  thumbnail: String
+  category: String
+  parent_collection: String!
+}
+
+input UpdateProductInput {
+  id: String!
+  name: String
+  description: String
+  thumbnail: String
+  category: String
+  parent_collection: String
+}
+
+input CreateCategoryInput {
+  name: String!
+  description: String
+  parent_collection: String!
+}
+
+input UpdateCategoryInput {
+  id: String!
+  name: String
+  description: String
+  parent_collection: String
 }
 
 input CreateCollectionInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String!
+  description: String
+  thumbnail: String
 }
 
 input UpdateCollectionInput {
-  id: Int!
+  id: String!
+  name: String
+  description: String
+  thumbnail: String
 }
 
 type Query {
   collection: [Collection]!
-  getSingleCollection(id: Int!): Collection
+  getSingleCollection(id: String!): Collection
+  categories: [Category]!
+  getSingleCategory(id: String!): Category
+  products: [Product]!
+  getSingleProduct(id: String!): Product
 }
 
 type Mutation {
   createCollection(createCollectionInput: CreateCollectionInput!): Collection!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
-  removeCollection(id: Int!): Collection
+  removeCollection(id: String!): Collection
+
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: String!): Category
+
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: String!): Product
 }
