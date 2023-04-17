@@ -19,6 +19,7 @@ import { PackageResolver } from './resolvers/package.resolver';
 import { PackageCategoryService } from './services/package-category.service';
 import { PackageCategoryResolver } from './resolvers/package-category.resolver';
 import { AuthModule } from '../auth/auth.module';
+import { CollectionController } from './controller/collection.controller';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { AuthModule } from '../auth/auth.module';
     PackageCategoryService,
     PackageCategoryResolver,
   ],
+  controllers: [CollectionController],
   exports: [CollectionService],
 })
 export class CollectionModule {}

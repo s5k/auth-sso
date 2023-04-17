@@ -9,9 +9,14 @@ import { CoreModule } from './core/core.module';
 import { ExceptionsFilter } from './core/filter/exceptions.filter';
 import { environments } from './environments/environments';
 import { FeaturesModule } from './features/features.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 
 @Module({
   imports: [
+    MulterModule.register({
+      storage: memoryStorage(),
+    }),
     FeaturesModule,
     CoreModule,
     ConfigModule.forRoot(),
