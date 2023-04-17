@@ -6,10 +6,21 @@ import { Category } from './category.schema';
 
 export type PackageDocument = Package & Collection;
 
+enum PackageStatus {
+  IN_DESIGN = 'IN_DESIGN',
+  IN_SOURCING = 'IN_SOURCING',
+  IN_SAMPLING = 'IN_SAMPLING',
+  IN_FINAL_PRODUCTION = 'IN_FINAL_PRODUCTION',
+  TAKE_DELIEVERY = 'TAKE_DELIEVERY',
+}
+
 @Schema({ timestamps: true })
 export class Package extends Document {
   @Prop({ default: 'Untitled package' })
   name: string;
+
+  @Prop()
+  status: PackageStatus;
 
   @Prop()
   description: string;

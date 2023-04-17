@@ -6,10 +6,21 @@ import { Category } from './category.schema';
 
 export type ProductDocument = Product & Collection;
 
+enum ProductStatus {
+  IN_DESIGN = 'IN_DESIGN',
+  IN_SOURCING = 'IN_SOURCING',
+  IN_SAMPLING = 'IN_SAMPLING',
+  IN_FINAL_PRODUCTION = 'IN_FINAL_PRODUCTION',
+  TAKE_DELIEVERY = 'TAKE_DELIEVERY',
+}
+
 @Schema({ timestamps: true })
 export class Product extends Document {
   @Prop({ default: 'Untitled product' })
   name: string;
+
+  @Prop()
+  status: ProductStatus;
 
   @Prop()
   description: string;
