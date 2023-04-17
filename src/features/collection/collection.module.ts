@@ -18,9 +18,11 @@ import { PackageService } from './services/package.service';
 import { PackageResolver } from './resolvers/package.resolver';
 import { PackageCategoryService } from './services/package-category.service';
 import { PackageCategoryResolver } from './resolvers/package-category.resolver';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     MongooseModule.forFeature([
       {
         name: Collection.name,

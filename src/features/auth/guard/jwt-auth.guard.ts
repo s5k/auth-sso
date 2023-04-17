@@ -13,6 +13,7 @@ import { Client, getClient } from '../../../shared/utils/get-client';
 import { UserService } from '../../user/service/user.service';
 import { AUTH_NOT_REQUIRED } from '../decorators/auth-not-required.decorator';
 import { AuthService } from '../service/auth.service';
+import { AuthenticationError } from '@nestjs/apollo';
 
 export interface Token {
   sub: string;
@@ -46,7 +47,7 @@ export class JwtAuthGuard implements CanActivate {
         return true;
       }
 
-      throw e;
+      throw new AuthenticationError(e.message);
     }
 
     return client.user != null;

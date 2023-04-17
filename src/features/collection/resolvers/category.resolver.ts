@@ -12,6 +12,9 @@ import { UpdateCategoryInput } from '../dto/update-category.input';
 import { FindCategoryInput } from '../dto/find-category.input';
 import { ProductService } from '../services/product.service';
 import { CollectionService } from '../services/collection.service';
+import { SetMetadata, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/features/auth/guard/jwt-auth.guard';
+import { CollectionGuard } from '../guard/collection.guard';
 
 @Resolver('Category')
 export class CategoryResolver {
@@ -52,6 +55,11 @@ export class CategoryResolver {
   }
 
   @Mutation('updateCategory')
+  @SetMetadata('CollectionGuard', {
+    document: 'Category',
+    param: 'id',
+  })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   update(
     @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput,
   ) {
@@ -62,6 +70,11 @@ export class CategoryResolver {
   }
 
   @Mutation('removeCategory')
+  @SetMetadata('CollectionGuard', {
+    document: 'Category',
+    param: 'id',
+  })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   remove(@Args('id') id: string) {
     return this.categoryService.remove(id);
   }

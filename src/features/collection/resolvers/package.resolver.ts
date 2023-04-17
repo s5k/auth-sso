@@ -12,6 +12,9 @@ import { PackageService } from '../services/package.service';
 import { CreatePackageInput } from '../dto/create-package.input';
 import { FindPackageInput } from '../dto/find-package.input';
 import { UpdatePackageInput } from '../dto/update-package.input';
+import { SetMetadata, UseGuards } from '@nestjs/common';
+import { CollectionGuard } from '../guard/collection.guard';
+import { JwtAuthGuard } from 'src/features/auth/guard/jwt-auth.guard';
 
 @Resolver('Package')
 export class PackageResolver {
@@ -50,6 +53,11 @@ export class PackageResolver {
   }
 
   @Mutation('updatePackage')
+  @SetMetadata('CollectionGuard', {
+    document: 'Package',
+    param: 'id',
+  })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   update(@Args('updatePackageInput') updatePackageInput: UpdatePackageInput) {
     return this.productService.update(
       updatePackageInput.id,
@@ -58,6 +66,11 @@ export class PackageResolver {
   }
 
   @Mutation('removePackage')
+  @SetMetadata('CollectionGuard', {
+    document: 'Package',
+    param: 'id',
+  })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   remove(@Args('id') id: string) {
     return this.productService.remove(id);
   }

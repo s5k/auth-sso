@@ -24,4 +24,17 @@ export abstract class BaseService<T extends Document, C, U, F> {
   remove(id: string): Promise<T> {
     return this.model.findByIdAndDelete(id);
   }
+
+  async getCollectionByModelId(
+    id: string,
+    collectionProperty: string,
+  ): Promise<string | null> {
+    const packageData = await this.findOne(id);
+
+    if (!packageData || !packageData[collectionProperty]) {
+      return null;
+    }
+
+    return packageData[collectionProperty];
+  }
 }

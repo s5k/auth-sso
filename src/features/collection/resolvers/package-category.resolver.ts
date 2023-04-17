@@ -12,6 +12,9 @@ import { PackageCategoryService } from '../services/package-category.service';
 import { CreatePackageCategoryInput } from '../dto/create-package-category.input';
 import { FindPackageCategoryInput } from '../dto/find-package-category.input';
 import { UpdatePackageCategoryInput } from '../dto/update-package-category.input';
+import { SetMetadata, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/features/auth/guard/jwt-auth.guard';
+import { CollectionGuard } from '../guard/collection.guard';
 
 @Resolver('PackageCategory')
 export class PackageCategoryResolver {
@@ -55,6 +58,11 @@ export class PackageCategoryResolver {
   }
 
   @Mutation('updatePackageCategory')
+  @SetMetadata('CollectionGuard', {
+    document: 'PackageCategory',
+    param: 'id',
+  })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   update(
     @Args('updatePackageCategoryInput')
     updatePackageCategoryInput: UpdatePackageCategoryInput,
@@ -66,6 +74,11 @@ export class PackageCategoryResolver {
   }
 
   @Mutation('removePackageCategory')
+  @SetMetadata('CollectionGuard', {
+    document: 'PackageCategory',
+    param: 'id',
+  })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   remove(@Args('id') id: string) {
     return this.packageCategoryService.remove(id);
   }

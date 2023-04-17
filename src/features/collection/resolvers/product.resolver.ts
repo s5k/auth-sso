@@ -13,6 +13,9 @@ import { FindProductInput } from '../dto/find-product.input';
 import { Collection } from '../schema/collection.schema';
 import { CollectionService } from '../services/collection.service';
 import { CategoryService } from '../services/category.service';
+import { SetMetadata, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/features/auth/guard/jwt-auth.guard';
+import { CollectionGuard } from '../guard/collection.guard';
 
 @Resolver('Product')
 export class ProductResolver {
@@ -51,6 +54,11 @@ export class ProductResolver {
   }
 
   @Mutation('updateProduct')
+  @SetMetadata('CollectionGuard', {
+    document: 'Product',
+    param: 'id',
+  })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   update(@Args('updateProductInput') updateProductInput: UpdateProductInput) {
     return this.productService.update(
       updateProductInput.id,
@@ -59,6 +67,11 @@ export class ProductResolver {
   }
 
   @Mutation('removeProduct')
+  @SetMetadata('CollectionGuard', {
+    document: 'Product',
+    param: 'id',
+  })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   remove(@Args('id') id: string) {
     return this.productService.remove(id);
   }

@@ -1,1 +1,3 @@
-export class CreateCollectionInput {}
+export class CreateCollectionInput {
+  members: string[];
+}

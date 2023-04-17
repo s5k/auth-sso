@@ -14,6 +14,12 @@ import { ProductService } from '../services/product.service';
 import { CategoryService } from '../services/category.service';
 import { PackageService } from '../services/package.service';
 import { PackageCategoryService } from '../services/package-category.service';
+import { Req, SetMetadata, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
+import { JwtAuthGuard } from 'src/features/auth/guard/jwt-auth.guard';
+import { CurrentUser } from 'src/features/auth/decorators/current-user.decorator';
+import { userInfo } from 'os';
+import { CollectionGuard } from '../guard/collection.guard';
 
 @Resolver('Collection')
 export class CollectionResolver {
@@ -26,9 +32,12 @@ export class CollectionResolver {
   ) {}
 
   @Mutation('createCollection')
-  create(
+  @UseGuards(JwtAuthGuard)
+  async create(
+    @CurrentUser() userInfo,
     @Args('createCollectionInput') createCollectionInput: CreateCollectionInput,
   ) {
+    createCollectionInput.members = [userInfo.id];
     return this.collectionService.create(createCollectionInput);
   }
 
@@ -74,6 +83,8 @@ export class CollectionResolver {
   }
 
   @Mutation('updateCollection')
+  @SetMetadata('CollectionGuard', { document: 'Collection', param: 'id' })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   update(
     @Args('updateCollectionInput') updateCollectionInput: UpdateCollectionInput,
   ) {
@@ -84,6 +95,8 @@ export class CollectionResolver {
   }
 
   @Mutation('removeCollection')
+  @SetMetadata('CollectionGuard', { document: 'Collection', param: 'id' })
+  @UseGuards(JwtAuthGuard, CollectionGuard)
   remove(@Args('id') id: string) {
     return this.collectionService.remove(id);
   }

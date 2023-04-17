@@ -2,7 +2,7 @@ import { Prop, Schema } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { createSchemaForClassWithMethods } from '../../../shared/mongoose/create-schema';
 import { Product } from './product.schema';
-import { Category } from './category.schema';
+import { User } from 'src/features/user/schema/user.schema';
 
 export type CollectionDocument = Collection & Product;
 
@@ -28,6 +28,9 @@ export class Collection extends Document {
 
   @Prop()
   updatedAt?: Date;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  members: User[];
 
   //product
   //category
