@@ -3,7 +3,7 @@ enum PackageStatus {
   IN_SOURCING
   IN_SAMPLING
   IN_FINAL_PRODUCTION
-  TAKE_DELIEVERY
+  TAKE_DELIVERY
 }
 
 enum ProductStatus {
@@ -11,7 +11,7 @@ enum ProductStatus {
   IN_SOURCING
   IN_SAMPLING
   IN_FINAL_PRODUCTION
-  TAKE_DELIEVERY
+  TAKE_DELIVERY
 }
 
 type Member {
