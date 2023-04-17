@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { CollectionService } from '../services/collection.service';
 import { Reflector } from '@nestjs/core';
-import { AuthenticationError } from '@nestjs/apollo';
+import { throwException } from 'src/shared/utils/throw-exception';
 import { getClient } from 'src/shared/utils/get-client';
 
 interface ICollectionGuard {
@@ -30,24 +30,22 @@ export class CollectionCreateGuard implements CanActivate {
     );
 
     if (!collectionGuardValue || !collectionGuardValue.param) {
-      throw new AuthenticationError('Invalid collection guard');
+      throwException(ctx, 'Invalid collection guard');
     }
 
     collectionId = client.body.variables[collectionGuardValue.param] || null;
     if (!collectionId) {
-      throw new AuthenticationError('Invalid collection id');
+      throwException(ctx, 'Invalid collection id');
     }
 
     const collection = await this.collectionService.findOne(collectionId);
 
     if (!collection) {
-      throw new AuthenticationError('Collection not found');
+      throwException(ctx, 'Collection not found');
     }
 
     if (!collection.members.includes(user.id)) {
-      throw new AuthenticationError(
-        'You are not the member of this collection',
-      );
+      throwException(ctx, 'You are not the member of this collection');
     }
 
     return true;

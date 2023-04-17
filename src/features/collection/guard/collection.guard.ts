@@ -6,8 +6,8 @@ import { PackageService } from '../services/package.service';
 import { ProductService } from '../services/product.service';
 import { CategoryService } from '../services/category.service';
 import { PackageCategoryService } from '../services/package-category.service';
-import { AuthenticationError } from '@nestjs/apollo';
 import { camelize } from 'src/shared/utils/camelize';
+import { throwException } from 'src/shared/utils/throw-exception';
 
 interface ICollectionGuard {
   document: string;
@@ -53,12 +53,12 @@ export class CollectionGuard implements CanActivate {
       !collectionGuardValue.param ||
       !this.allowedCollections.includes(collectionGuardValue.document)
     ) {
-      throw new AuthenticationError('Invalid collection guard');
+      throwException(ctx, 'Invalid collection guard');
     }
 
     const id = client.body.variables[collectionGuardValue.param] || null;
     if (!id) {
-      throw new AuthenticationError('Invalid id');
+      throwException(ctx, 'Invalid id');
     }
 
     if (collectionGuardValue.document === 'Collection') {
@@ -69,13 +69,13 @@ export class CollectionGuard implements CanActivate {
       ].getCollectionByModelId(id, 'parent_collection');
     }
 
-    if (!collectionId) throw new AuthenticationError('Invalid document type');
+    if (!collectionId) throwException(ctx, 'Invalid document type');
 
     const collection = await this.collectionService.findOne(collectionId);
     if (collection.members.includes(client.user.id)) {
       return true;
     }
 
-    throw new AuthenticationError("You're not a member of the collection");
+    throwException(ctx, "You're not a member of the collection");
   }
 }

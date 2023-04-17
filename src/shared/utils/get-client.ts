@@ -1,7 +1,7 @@
-import { ExecutionContext, RawBodyRequest } from '@nestjs/common';
+import { ExecutionContext } from '@nestjs/common';
 import { Dictionary } from 'code-config';
 import { User } from '../../features/user/schema/user.schema';
-import { GqlExecutionContext } from '@nestjs/graphql';
+import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 
 export interface Client {
   body: Dictionary<string>;
@@ -14,7 +14,7 @@ type GqlExecutionCtx = GqlExecutionContext | ExecutionContext;
 export const getClient = <T = GqlExecutionCtx>(
   ctx: GqlExecutionCtx,
 ): Client => {
-  switch (ctx.getType()) {
+  switch (ctx.getType() as GqlContextType) {
     case 'ws':
       return ctx.switchToWs().getClient().handshake;
     case 'graphql':

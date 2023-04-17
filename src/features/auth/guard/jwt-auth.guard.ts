@@ -4,16 +4,14 @@ import {
   forwardRef,
   Inject,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { Socket } from 'socket.io';
 import { Client, getClient } from '../../../shared/utils/get-client';
 import { UserService } from '../../user/service/user.service';
 import { AUTH_NOT_REQUIRED } from '../decorators/auth-not-required.decorator';
 import { AuthService } from '../service/auth.service';
-import { AuthenticationError } from '@nestjs/apollo';
+import { throwException } from 'src/shared/utils/throw-exception';
 
 export interface Token {
   sub: string;
@@ -47,7 +45,7 @@ export class JwtAuthGuard implements CanActivate {
         return true;
       }
 
-      throw new AuthenticationError(e.message);
+      throwException(ctx, e.message);
     }
 
     return client.user != null;
@@ -59,7 +57,7 @@ export class JwtAuthGuard implements CanActivate {
     const decoded = this.jwtService.decode(token) as Token;
 
     if (!decoded) {
-      this.throwException(ctx, 'Unable to decode token');
+      throwException(ctx, 'Unable to decode token');
     }
 
     try {
@@ -72,7 +70,7 @@ export class JwtAuthGuard implements CanActivate {
 
       return user;
     } catch (e) {
-      this.throwException(ctx, 'Invalid token');
+      throwException(ctx, 'Invalid token');
     }
   }
 
@@ -84,26 +82,18 @@ export class JwtAuthGuard implements CanActivate {
     const authorization = client.headers.authorization?.split(' ');
 
     if (!authorization) {
-      this.throwException(ctx, 'Token not found');
+      throwException(ctx, 'Token not found');
     }
 
     if (authorization[0].toLowerCase() !== 'bearer') {
-      this.throwException(ctx, 'Authorization type not valid');
+      throwException(ctx, 'Authorization type not valid');
     }
 
     if (!authorization[1]) {
-      this.throwException(ctx, 'Token not provided');
+      throwException(ctx, 'Token not provided');
     }
 
     return authorization[1];
-  }
-
-  throwException(ctx: ExecutionContext, message: string) {
-    if (ctx.getType() === 'ws') {
-      ctx.switchToWs().getClient<Socket>().disconnect(true);
-    }
-
-    throw new UnauthorizedException(message);
   }
 
   private getRequest(ctx: ExecutionContext) {
