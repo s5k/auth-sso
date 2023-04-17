@@ -79,7 +79,7 @@ type Collection {
 }
 
 input CreateProductInput {
-  name: String!
+  name: String
   status: ProductStatus!
   description: String
   thumbnail: String
@@ -111,7 +111,7 @@ input UpdateCategoryInput {
 }
 
 input CreatePackageInput {
-  name: String!
+  name: String
   status: PackageStatus!
   description: String
   thumbnail: String
@@ -143,7 +143,7 @@ input UpdatePackageCategoryInput {
 }
 
 input CreateCollectionInput {
-  name: String!
+  name: String
   description: String
   thumbnail: String
 }

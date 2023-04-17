@@ -16,7 +16,7 @@ enum ProductStatus {
 
 @Schema({ timestamps: true })
 export class Product extends Document {
-  @Prop({ default: 'Untitled product' })
+  @Prop({ default: 'Untitled Product' })
   name: string;
 
   @Prop()

@@ -8,7 +8,7 @@ export type PackageCategoryDocument = PackageCategory & Collection;
 
 @Schema({ timestamps: true })
 export class PackageCategory extends Document {
-  @Prop()
+  @Prop({ default: 'Untitled Category' })
   name: string;
 
   @Prop()

@@ -8,7 +8,7 @@ export type CategoryDocument = Category & Collection & Product;
 
 @Schema({ timestamps: true })
 export class Category extends Document {
-  @Prop()
+  @Prop({ default: 'Untitled Category' })
   name: string;
 
   @Prop()

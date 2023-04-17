@@ -8,7 +8,7 @@ export type CollectionDocument = Collection & Product;
 
 @Schema({ timestamps: true })
 export class Collection extends Document {
-  @Prop()
+  @Prop({ default: 'Untitled Collection' })
   name: string;
 
   @Prop()

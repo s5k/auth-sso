@@ -16,7 +16,7 @@ enum PackageStatus {
 
 @Schema({ timestamps: true })
 export class Package extends Document {
-  @Prop({ default: 'Untitled package' })
+  @Prop({ default: 'Untitled Package' })
   name: string;
 
   @Prop()
