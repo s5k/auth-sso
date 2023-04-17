@@ -15,8 +15,10 @@ import { UpdatePackageInput } from '../dto/update-package.input';
 import { SetMetadata, UseGuards } from '@nestjs/common';
 import { CollectionGuard } from '../guard/collection.guard';
 import { JwtAuthGuard } from 'src/features/auth/guard/jwt-auth.guard';
+import { CollectionCreateGuard } from '../guard/collection-create.guard';
 
 @Resolver('Package')
+@UseGuards(JwtAuthGuard)
 export class PackageResolver {
   constructor(
     private readonly productService: PackageService,
@@ -25,6 +27,8 @@ export class PackageResolver {
   ) {}
 
   @Mutation('createPackage')
+  @SetMetadata('CollectionGuard', { param: 'parent_collection' })
+  @UseGuards(CollectionCreateGuard)
   create(@Args('createPackageInput') createPackageInput: CreatePackageInput) {
     return this.productService.create(createPackageInput);
   }
@@ -57,7 +61,7 @@ export class PackageResolver {
     document: 'Package',
     param: 'id',
   })
-  @UseGuards(JwtAuthGuard, CollectionGuard)
+  @UseGuards(CollectionGuard)
   update(@Args('updatePackageInput') updatePackageInput: UpdatePackageInput) {
     return this.productService.update(
       updatePackageInput.id,
@@ -70,7 +74,7 @@ export class PackageResolver {
     document: 'Package',
     param: 'id',
   })
-  @UseGuards(JwtAuthGuard, CollectionGuard)
+  @UseGuards(CollectionGuard)
   remove(@Args('id') id: string) {
     return this.productService.remove(id);
   }

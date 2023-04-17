@@ -15,8 +15,10 @@ import { CollectionService } from '../services/collection.service';
 import { SetMetadata, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/features/auth/guard/jwt-auth.guard';
 import { CollectionGuard } from '../guard/collection.guard';
+import { CollectionCreateGuard } from '../guard/collection-create.guard';
 
 @Resolver('Category')
+@UseGuards(JwtAuthGuard)
 export class CategoryResolver {
   constructor(
     private readonly categoryService: CategoryService,
@@ -25,6 +27,8 @@ export class CategoryResolver {
   ) {}
 
   @Mutation('createCategory')
+  @SetMetadata('CollectionGuard', { param: 'parent_collection' })
+  @UseGuards(CollectionCreateGuard)
   create(@Args('createCategoryInput') createProductInput: CreateCategoryInput) {
     return this.categoryService.create(createProductInput);
   }
@@ -59,7 +63,7 @@ export class CategoryResolver {
     document: 'Category',
     param: 'id',
   })
-  @UseGuards(JwtAuthGuard, CollectionGuard)
+  @UseGuards(CollectionGuard)
   update(
     @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput,
   ) {
@@ -74,7 +78,7 @@ export class CategoryResolver {
     document: 'Category',
     param: 'id',
   })
-  @UseGuards(JwtAuthGuard, CollectionGuard)
+  @UseGuards(CollectionGuard)
   remove(@Args('id') id: string) {
     return this.categoryService.remove(id);
   }

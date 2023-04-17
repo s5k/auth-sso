@@ -20,10 +20,13 @@ import { JwtAuthGuard } from 'src/features/auth/guard/jwt-auth.guard';
 import { CurrentUser } from 'src/features/auth/decorators/current-user.decorator';
 import { userInfo } from 'os';
 import { CollectionGuard } from '../guard/collection.guard';
+import { UserService } from 'src/features/user/service/user.service';
 
 @Resolver('Collection')
+@UseGuards(JwtAuthGuard)
 export class CollectionResolver {
   constructor(
+    private readonly userService: UserService,
     private readonly collectionService: CollectionService,
     private readonly productService: ProductService,
     private readonly categoryService: CategoryService,
@@ -44,6 +47,12 @@ export class CollectionResolver {
   @Query('collection')
   findAll(findInput: FindCollectionInput) {
     return this.collectionService.findAll(findInput);
+  }
+
+  @ResolveField()
+  async members(@Parent() collection) {
+    const { members } = collection;
+    return this.userService.findAll({ _id: { $in: members } });
   }
 
   @ResolveField()
@@ -84,7 +93,7 @@ export class CollectionResolver {
 
   @Mutation('updateCollection')
   @SetMetadata('CollectionGuard', { document: 'Collection', param: 'id' })
-  @UseGuards(JwtAuthGuard, CollectionGuard)
+  @UseGuards(CollectionGuard)
   update(
     @Args('updateCollectionInput') updateCollectionInput: UpdateCollectionInput,
   ) {
@@ -96,7 +105,7 @@ export class CollectionResolver {
 
   @Mutation('removeCollection')
   @SetMetadata('CollectionGuard', { document: 'Collection', param: 'id' })
-  @UseGuards(JwtAuthGuard, CollectionGuard)
+  @UseGuards(CollectionGuard)
   remove(@Args('id') id: string) {
     return this.collectionService.remove(id);
   }

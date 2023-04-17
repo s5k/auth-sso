@@ -122,6 +122,10 @@ export class UserService {
     return user.save();
   }
 
+  async findAll(findInput: FilterQuery<User> = {}) {
+    return this.userModel.find(findInput);
+  }
+
   async sendVerifyEmail(user: User) {
     const url = environments.backendUrl;
     const verifyCode = user.verifyCode;
