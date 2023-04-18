@@ -175,7 +175,8 @@ type Query {
 
 type Mutation {
   createCollection(createCollectionInput: CreateCollectionInput!): Collection!
-  inviteMember(email: String!, collectionId: String!): InviteMember!
+  inviteMemberToCollection(email: String!, collectionId: String!): InviteMember!
+  removeMemberFromCollection(email: String!, collectionId: String!): Collection!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
   removeCollection(id: String!): Collection
 

@@ -20,6 +20,7 @@ import { CurrentUser } from 'src/features/auth/decorators/current-user.decorator
 import { CollectionGuard } from '../guard/collection.guard';
 import { UserService } from 'src/features/user/service/user.service';
 import { CollectionCreateGuard } from '../guard/collection-create.guard';
+import { UserInputError } from '@nestjs/apollo';
 
 @Resolver('Collection')
 @UseGuards(JwtAuthGuard)
@@ -90,7 +91,7 @@ export class CollectionResolver {
     return this.collectionService.findOne(id);
   }
 
-  @Mutation('inviteMember')
+  @Mutation('inviteMemberToCollection')
   @SetMetadata('CollectionGuard', { param: 'collectionId' })
   @UseGuards(CollectionCreateGuard)
   inviteMember(
@@ -106,6 +107,23 @@ export class CollectionResolver {
     }
 
     return this.collectionService.inviteMember({ email, collectionId });
+  }
+
+  @Mutation('removeMemberFromCollection')
+  @SetMetadata('CollectionGuard', {
+    document: 'Collection',
+    param: 'collectionId',
+  })
+  @UseGuards(CollectionGuard)
+  removeMember(
+    @CurrentUser() currentUser,
+    @Args('email') email: string,
+    @Args('collectionId') collectionId: string,
+  ) {
+    if (email === currentUser.email) {
+      throw new UserInputError('You cannot remove yourself from a collection');
+    }
+    return this.collectionService.removeMember(email, collectionId);
   }
 
   @Mutation('updateCollection')

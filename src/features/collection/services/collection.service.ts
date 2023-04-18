@@ -80,6 +80,32 @@ export class CollectionService extends BaseService<
     };
   }
 
+  async removeMember(email: string, collectionId: string) {
+    const collection = await this.model.findById(collectionId);
+
+    if (!collection) {
+      throw new HttpException('Collection not found', 404);
+    }
+
+    const user = await this.userService.getUserByEmail(email);
+
+    if (!user) {
+      throw new HttpException('User not found', 404);
+    }
+
+    if (!collection.members.includes(user.id)) {
+      throw new HttpException('User not in collection', 404);
+    }
+
+    collection.members = collection.members.filter(
+      member => !member.equals(user.id),
+    );
+
+    return this.model.findByIdAndUpdate(collectionId, collection, {
+      new: true,
+    });
+  }
+
   async sendInviteEmail(email: string) {
     const url = environments.frontendRegisterUrl;
 
