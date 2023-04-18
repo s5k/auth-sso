@@ -9,6 +9,7 @@ export const environments = {
   mongoUri: env.MONGO_URI,
   proxyEnabled: env.PROXY_ENABLED === 'true',
   frontEndUrl: env.FRONTEND_URL,
+  frontendRegisterUrl: env.FRONTEND_REGISTER_URL,
   backendUrl: env.BACKEND_URL,
   jwtSecret: env.JWT_SECRET,
   accessTokenSecret: env.ACCESS_TOKEN_SECRET,

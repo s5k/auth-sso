@@ -20,10 +20,15 @@ import { PackageCategoryService } from './services/package-category.service';
 import { PackageCategoryResolver } from './resolvers/package-category.resolver';
 import { AuthModule } from '../auth/auth.module';
 import { CollectionController } from './controller/collection.controller';
+import { InvitationService } from './services/invitation.service';
+import { Invitation, InvitationSchema } from './schema/invitation.schema';
+import { UserModule } from '../user/user.module';
+import { UserCreatedListener } from './listeners/user-created.listener';
 
 @Module({
   imports: [
     AuthModule,
+    UserModule,
     MongooseModule.forFeature([
       {
         name: Collection.name,
@@ -45,6 +50,10 @@ import { CollectionController } from './controller/collection.controller';
         name: PackageCategory.name,
         schema: PackageCategorySchema,
       },
+      {
+        name: Invitation.name,
+        schema: InvitationSchema,
+      },
     ]),
   ],
   providers: [
@@ -58,6 +67,8 @@ import { CollectionController } from './controller/collection.controller';
     PackageResolver,
     PackageCategoryService,
     PackageCategoryResolver,
+    InvitationService,
+    UserCreatedListener,
   ],
   controllers: [CollectionController],
   exports: [CollectionService],

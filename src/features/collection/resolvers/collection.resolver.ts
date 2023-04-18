@@ -14,13 +14,12 @@ import { ProductService } from '../services/product.service';
 import { CategoryService } from '../services/category.service';
 import { PackageService } from '../services/package.service';
 import { PackageCategoryService } from '../services/package-category.service';
-import { Req, SetMetadata, UseGuards } from '@nestjs/common';
-import { Request } from 'express';
+import { SetMetadata, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/features/auth/guard/jwt-auth.guard';
 import { CurrentUser } from 'src/features/auth/decorators/current-user.decorator';
-import { userInfo } from 'os';
 import { CollectionGuard } from '../guard/collection.guard';
 import { UserService } from 'src/features/user/service/user.service';
+import { CollectionCreateGuard } from '../guard/collection-create.guard';
 
 @Resolver('Collection')
 @UseGuards(JwtAuthGuard)
@@ -89,6 +88,24 @@ export class CollectionResolver {
   @Query('getSingleCollection')
   findOne(@Args('id') id: string) {
     return this.collectionService.findOne(id);
+  }
+
+  @Mutation('inviteMember')
+  @SetMetadata('CollectionGuard', { param: 'collectionId' })
+  @UseGuards(CollectionCreateGuard)
+  inviteMember(
+    @CurrentUser() currentUser,
+    @Args('email') email: string,
+    @Args('collectionId') collectionId: string,
+  ) {
+    if (email === currentUser.email) {
+      return {
+        status: false,
+        message: 'You cannot add yourself to a collection',
+      };
+    }
+
+    return this.collectionService.inviteMember({ email, collectionId });
   }
 
   @Mutation('updateCollection')

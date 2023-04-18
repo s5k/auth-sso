@@ -10,6 +10,8 @@ import { FilterQuery, Model } from 'mongoose';
 import { environments } from 'src/environments/environments';
 import { randomString } from '../../../shared/utils/random-string';
 import { User } from '../schema/user.schema';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { UserCreatedEvent } from 'src/features/user/events/user-created.event';
 
 @Injectable()
 export class UserService {
@@ -26,6 +28,7 @@ export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
     private mailService: MailerService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   getUserByName(name: string) {
@@ -111,6 +114,8 @@ export class UserService {
 
     user.generateSessionToken();
     user.generateVerifyAccountCode();
+
+    this.eventEmitter.emit('user.created', new UserCreatedEvent(user));
 
     return user.save();
   }

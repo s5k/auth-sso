@@ -1175,7 +1175,7 @@
     lodash "4.17.21"
     uuid "9.0.0"
 
-"@nestjs/core@^7.0.9 || ^8.0.0 || ^9.0.0", "@nestjs/core@^8.0.0 || ^9.0.0", "@nestjs/core@^9.0.0", "@nestjs/core@^9.3.8", "@nestjs/core@^9.4.0":
+"@nestjs/core@^7.0.0 || ^8.0.0 || ^9.0.0", "@nestjs/core@^7.0.9 || ^8.0.0 || ^9.0.0", "@nestjs/core@^8.0.0 || ^9.0.0", "@nestjs/core@^9.0.0", "@nestjs/core@^9.3.8", "@nestjs/core@^9.4.0":
   version "9.4.0"
   resolved "https://registry.npmjs.org/@nestjs/core/-/core-9.4.0.tgz"
   integrity sha512-yTLryCgFD0462wPe4HIzhyTcDgibt8Stfwb5YzcX7Ma0NM4m8uBIpcPG109KBubp8ZmV85e5mw4rl20qLQQVsQ==
@@ -1186,6 +1186,13 @@
     path-to-regexp "3.2.0"
     tslib "2.5.0"
     uid "2.0.2"
+
+"@nestjs/event-emitter@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/@nestjs/event-emitter/-/event-emitter-1.4.1.tgz"
+  integrity sha512-PmLpzMYgEKJNxOUrRjb6kNSm2PC6J+BeLTuF/bkYViGM/mVGvYOgU5jq8DQnXmiSmDmyWN+tO2cHSnR7odJJRA==
+  dependencies:
+    eventemitter2 "6.4.9"
 
 "@nestjs/graphql@^11.0.0", "@nestjs/graphql@^11.0.5":
   version "11.0.5"
@@ -3745,6 +3752,11 @@ event-target-shim@^5.0.0:
   version "5.0.1"
   resolved "https://registry.npmjs.org/event-target-shim/-/event-target-shim-5.0.1.tgz"
   integrity sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
+
+eventemitter2@6.4.9:
+  version "6.4.9"
+  resolved "https://registry.npmjs.org/eventemitter2/-/eventemitter2-6.4.9.tgz"
+  integrity sha512-JEPTiaOt9f04oa6NOkc4aH+nVp5I3wEjpHbIPqfgCdD5v5bUzy7xQqwcVO2aDQgOWhI28da57HksMrzK9HlRxg==
 
 eventemitter3@^3.1.0:
   version "3.1.2"

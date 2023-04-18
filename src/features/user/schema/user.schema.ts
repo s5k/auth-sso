@@ -22,7 +22,7 @@ export class User extends Document {
   @Prop()
   verifyCode: number;
 
-  @Prop()
+  @Prop({ default: false })
   isActive: boolean;
 
   @Prop({ default: false })

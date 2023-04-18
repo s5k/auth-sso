@@ -78,6 +78,11 @@ type Collection {
   updatedAt: String!
 }
 
+type InviteMember {
+  status: Boolean
+  message: String
+}
+
 input CreateProductInput {
   name: String
   status: ProductStatus!
@@ -170,6 +175,7 @@ type Query {
 
 type Mutation {
   createCollection(createCollectionInput: CreateCollectionInput!): Collection!
+  inviteMember(email: String!, collectionId: String!): InviteMember!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
   removeCollection(id: String!): Collection
 

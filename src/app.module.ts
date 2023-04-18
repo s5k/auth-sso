@@ -11,9 +11,11 @@ import { environments } from './environments/environments';
 import { FeaturesModule } from './features/features.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     MulterModule.register({
       storage: memoryStorage(),
     }),
