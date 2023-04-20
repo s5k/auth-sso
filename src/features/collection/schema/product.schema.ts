@@ -19,6 +19,9 @@ export class Product extends Document {
   @Prop({ default: 'Untitled Product' })
   name: string;
 
+  @Prop({ default: 0, min: 0, type: Number })
+  position: number;
+
   @Prop()
   status: ProductStatus;
 

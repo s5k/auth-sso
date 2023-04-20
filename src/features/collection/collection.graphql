@@ -185,10 +185,12 @@ type Mutation {
   removeCategory(id: String!): Category
 
   createProduct(createProductInput: CreateProductInput!): Product!
+  rearrangeProduct(id: String!, position: Int!): [Product]!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   removeProduct(id: String!): Product
 
   createPackage(createPackageInput: CreatePackageInput!): Package!
+  rearrangePackage(id: String!, position: Int!): [Package]!
   updatePackage(updatePackageInput: UpdatePackageInput!): Package!
   removePackage(id: String!): Package
 

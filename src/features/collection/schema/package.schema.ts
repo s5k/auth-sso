@@ -19,6 +19,9 @@ export class Package extends Document {
   @Prop({ default: 'Untitled Package' })
   name: string;
 
+  @Prop({ default: 0, min: 0, type: Number })
+  position: number;
+
   @Prop()
   status: PackageStatus;
 

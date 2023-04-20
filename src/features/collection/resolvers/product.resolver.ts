@@ -70,6 +70,16 @@ export class ProductResolver {
     );
   }
 
+  @Mutation('rearrangeProduct')
+  @SetMetadata('CollectionGuard', {
+    document: 'Product',
+    param: 'id',
+  })
+  @UseGuards(CollectionGuard)
+  rearrangeProduct(@Args('id') id: string, @Args('position') position: number) {
+    return this.productService.rearrageProduct(id, position);
+  }
+
   @Mutation('removeProduct')
   @SetMetadata('CollectionGuard', {
     document: 'Product',

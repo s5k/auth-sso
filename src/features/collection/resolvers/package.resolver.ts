@@ -69,6 +69,16 @@ export class PackageResolver {
     );
   }
 
+  @Mutation('rearrangePackage')
+  @SetMetadata('CollectionGuard', {
+    document: 'Package',
+    param: 'id',
+  })
+  @UseGuards(CollectionGuard)
+  rearrangePackage(@Args('id') id: string, @Args('position') position: number) {
+    return this.productService.rearrageProduct(id, position);
+  }
+
   @Mutation('removePackage')
   @SetMetadata('CollectionGuard', {
     document: 'Package',

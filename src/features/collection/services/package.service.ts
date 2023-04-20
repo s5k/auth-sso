@@ -13,7 +13,7 @@ import { Package, PackageDocument } from '../schema/package.schema';
 
 @Injectable()
 export class PackageService extends BaseService<
-  Product,
+  Package,
   CreatePackageInput,
   UpdatePackageInput,
   FindPackageInput
@@ -23,5 +23,64 @@ export class PackageService extends BaseService<
     private readonly packageModel: Model<PackageDocument>,
   ) {
     super(packageModel);
+  }
+
+  findAll(findInput: FindPackageInput): Promise<Package[]> {
+    return this.model.find(findInput, null, { sort: { position: 'ASC' } });
+  }
+
+  async rearrageProduct(
+    productId: string,
+    position: number,
+  ): Promise<Package[]> {
+    const product = await this.model.findById(productId);
+
+    if (!product) {
+      return null;
+    }
+
+    const { parent_collection, category } = product;
+
+    const products = await this.model.find(
+      {
+        parent_collection,
+        category: category || null,
+      },
+      null,
+      { sort: { position: 'ASC' } },
+    );
+
+    if (!products) {
+      return null;
+    }
+
+    // Locate the product that we want to move
+    const productToMove = products.find(
+      product => product._id.toString() === productId,
+    );
+
+    if (!productToMove) {
+      return null;
+    }
+
+    // Remove the product from the list
+    const indexToRemove = products.indexOf(productToMove);
+    products.splice(indexToRemove, 1);
+
+    // Insert the product back into the list at the desired position
+    products.splice(position - 1, 0, productToMove);
+
+    // Update the positions of the remaining products in the list
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      product.position = i + 1;
+      await product.save();
+    }
+
+    return this.model.find(
+      { parent_collection, category: category || null },
+      null,
+      { sort: { position: 'ASC' } },
+    );
   }
 }
