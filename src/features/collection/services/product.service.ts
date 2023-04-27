@@ -21,8 +21,16 @@ export class ProductService extends BaseService<
     super(productModel);
   }
 
-  findAll(findInput: FindProductInput): Promise<Product[]> {
-    return this.model.find(findInput, null, { sort: { position: 'ASC' } });
+  async findAll(findInput: FindProductInput): Promise<Product[]> {
+    const results = await this.model.find(findInput, null, {
+      sort: { position: 'ASC' },
+    });
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   async rearrageProduct(

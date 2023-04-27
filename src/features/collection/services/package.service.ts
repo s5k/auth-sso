@@ -25,8 +25,16 @@ export class PackageService extends BaseService<
     super(packageModel);
   }
 
-  findAll(findInput: FindPackageInput): Promise<Package[]> {
-    return this.model.find(findInput, null, { sort: { position: 'ASC' } });
+  async findAll(findInput: FindPackageInput): Promise<Package[]> {
+    const results = await this.model.find(findInput, null, {
+      sort: { position: 'ASC' },
+    });
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   async rearrageProduct(

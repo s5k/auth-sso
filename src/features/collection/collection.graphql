@@ -167,7 +167,7 @@ type Query {
   getSingleCategory(id: String!): Category
   products: [Product]!
   getSingleProduct(id: String!): Product
-  packages: [Package]
+  packages: [Package]!
   getSinglePackage(id: String!): Package
   packageCategories: [PackageCategory]
   getSinglePackageCategory(id: String!): PackageCategory

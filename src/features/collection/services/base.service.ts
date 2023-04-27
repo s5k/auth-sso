@@ -9,8 +9,14 @@ export abstract class BaseService<T extends Document, C, U, F> {
     return collection.save();
   }
 
-  findAll(findInput: F): Promise<T[]> {
-    return this.model.find(findInput);
+  async findAll(findInput: F): Promise<T[]> {
+    const results = await this.model.find(findInput);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   findOne(id: string) {
