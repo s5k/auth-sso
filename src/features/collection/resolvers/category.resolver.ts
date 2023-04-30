@@ -73,6 +73,16 @@ export class CategoryResolver {
     );
   }
 
+  @Mutation('rearrangeCategory')
+  @SetMetadata('CollectionGuard', {
+    document: 'Category',
+    param: 'id',
+  })
+  @UseGuards(CollectionGuard)
+  rearrangeProduct(@Args('id') id: string, @Args('position') position: number) {
+    return this.categoryService.rearrageCategory(id, position);
+  }
+
   @Mutation('removeCategory')
   @SetMetadata('CollectionGuard', {
     document: 'Category',

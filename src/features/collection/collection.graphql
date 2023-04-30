@@ -171,6 +171,7 @@ input UpdateCollectionInput {
 }
 
 type Query {
+  searchCollection(collectionName: String!): [Collection]!
   collection: [Collection]!
   getSingleCollection(id: String!): Collection
   categories: [Category]!
@@ -192,6 +193,7 @@ type Mutation {
 
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  rearrangeCategory(id: String!, position: Int!): [Category]!
   removeCategory(id: String!): Category
 
   createProduct(createProductInput: CreateProductInput!): Product!
@@ -210,5 +212,6 @@ type Mutation {
   updatePackageCategory(
     updatePackageCategoryInput: UpdatePackageCategoryInput!
   ): PackageCategory!
+  rearrangePackageCategory(id: String!, position: Int!): [PackageCategory]!
   removePackageCategory(id: String!): PackageCategory
 }

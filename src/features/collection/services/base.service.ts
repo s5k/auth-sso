@@ -9,6 +9,18 @@ export abstract class BaseService<T extends Document, C, U, F> {
     return collection.save();
   }
 
+  async searchByName(name: string): Promise<T[]> {
+    const results = await this.model.find({
+      name: { $regex: name, $options: 'i' },
+    });
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
   async findAll(findInput: F): Promise<T[]> {
     const results = await this.model.find(findInput);
 

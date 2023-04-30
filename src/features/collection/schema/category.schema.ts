@@ -11,6 +11,9 @@ export class Category extends Document {
   @Prop({ default: 'Untitled Category' })
   name: string;
 
+  @Prop({ default: 0, min: 0, type: Number })
+  position: number;
+
   @Prop()
   description: string;
 

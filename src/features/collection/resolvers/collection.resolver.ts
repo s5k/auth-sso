@@ -44,6 +44,11 @@ export class CollectionResolver {
     return this.collectionService.create(createCollectionInput);
   }
 
+  @Query('searchCollection')
+  search(@Args('collectionName') collectionName: string) {
+    return this.collectionService.searchByName(collectionName);
+  }
+
   @Query('collection')
   findAll(findInput: FindCollectionInput) {
     return this.collectionService.findAll(findInput);

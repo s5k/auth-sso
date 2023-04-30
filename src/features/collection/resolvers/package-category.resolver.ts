@@ -77,6 +77,16 @@ export class PackageCategoryResolver {
     );
   }
 
+  @Mutation('rearrangePackageCategory')
+  @SetMetadata('CollectionGuard', {
+    document: 'PackageCategory',
+    param: 'id',
+  })
+  @UseGuards(CollectionGuard)
+  rearrangeProduct(@Args('id') id: string, @Args('position') position: number) {
+    return this.packageCategoryService.rearrageCategory(id, position);
+  }
+
   @Mutation('removePackageCategory')
   @SetMetadata('CollectionGuard', {
     document: 'PackageCategory',
