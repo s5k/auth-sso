@@ -6,7 +6,7 @@ import { Category } from './category.schema';
 
 export type ProductDocument = Product & Collection;
 
-enum ProductStatus {
+export enum ProductStatus {
   IN_DESIGN = 'IN_DESIGN',
   IN_SOURCING = 'IN_SOURCING',
   IN_SAMPLING = 'IN_SAMPLING',

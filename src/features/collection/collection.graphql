@@ -65,6 +65,15 @@ type Package {
   updatedAt: String!
 }
 
+type ProductsCount {
+  productInDesign: Int!
+  productInSourcing: Int!
+  productInSampling: Int!
+  productInFinalProduction: Int!
+  productInTakeDelivery: Int!
+  totalProducts: Int!
+}
+
 type Collection {
   id: String!
   name: String!
@@ -76,6 +85,7 @@ type Collection {
   packages: [Package]!
   packageCategories: [PackageCategory]!
   updatedAt: String!
+  productsCount: ProductsCount!
 }
 
 type InviteMember {

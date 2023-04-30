@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product, ProductDocument } from '../schema/product.schema';
+import {
+  Product,
+  ProductDocument,
+  ProductStatus,
+} from '../schema/product.schema';
 import { CreateProductInput } from '../dto/create-product.input';
 import { UpdateProductInput } from '../dto/update-product.input';
 import { BaseService } from './base.service';
@@ -31,6 +35,49 @@ export class ProductService extends BaseService<
     }
 
     return results;
+  }
+
+  async count(collectionId: String) {
+    const results = await this.model.find({
+      parent_collection: collectionId,
+    });
+
+    if (!results) {
+      return {
+        productInDesign: 0,
+        productInSourcing: 0,
+        productInSampling: 0,
+        productInFinalProduction: 0,
+        productInTakeDelivery: 0,
+        totalProducts: 0,
+      };
+    }
+
+    const productInDesign = results.filter(
+      product => product.status === ProductStatus.IN_DESIGN,
+    ).length;
+    const productInSourcing = results.filter(
+      product => product.status === ProductStatus.IN_SOURCING,
+    ).length;
+    const productInSampling = results.filter(
+      product => product.status === ProductStatus.IN_SAMPLING,
+    ).length;
+    const productInFinalProduction = results.filter(
+      product => product.status === ProductStatus.IN_FINAL_PRODUCTION,
+    ).length;
+    const productInTakeDelivery = results.filter(
+      product => product.status === ProductStatus.TAKE_DELIVERY,
+    ).length;
+    const totalProducts = results.length;
+
+    return {
+      productInDesign,
+      productInSourcing,
+      productInSampling,
+      productInFinalProduction,
+      productInTakeDelivery,
+      totalProducts,
+    };
   }
 
   async rearrageProduct(

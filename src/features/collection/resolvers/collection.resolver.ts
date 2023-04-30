@@ -72,6 +72,13 @@ export class CollectionResolver {
   }
 
   @ResolveField()
+  async productsCount(@Parent() collection) {
+    const { id } = collection;
+
+    return this.productService.count(id);
+  }
+
+  @ResolveField()
   async packages(@Parent() collection) {
     const { id } = collection;
     return this.packageService.findAll({
